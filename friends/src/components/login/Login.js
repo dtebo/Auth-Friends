@@ -12,6 +12,12 @@ class Login extends Component {
         }
     };
 
+    componentDidMount(){
+        if(localStorage.getItem('authToken')){
+            this.props.history.push('/protected');
+        }
+    }
+
     handleChange = e => {
         this.setState({
             credentials: {
