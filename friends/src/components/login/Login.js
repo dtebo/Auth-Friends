@@ -27,7 +27,7 @@ class Login extends Component {
         axiosWithAuth()
             .post('/login', this.state.credentials)
             .then(res => {
-                localStorage.setItem('authToken', res.payload);
+                localStorage.setItem('authToken', res.data.payload);
                 this.props.history.push('/protected');
             })
             .catch(err => {

@@ -14,7 +14,7 @@ class FriendList extends Component {
 
     getFriends = () => {
         axiosWithAuth()
-            .get('/data')
+            .get('/friends')
             .then(res => {
                 this.setState({
                     friends: res.data
