@@ -13,23 +13,30 @@ class Login extends Component {
 
     render(){
         return(
-            <div className='wrapper'>
+            <>
                 <div className='form-container'>
                     <form onSubmit={this.handleSubmit}>
-                        <label htmlFor='username'>
-                            Username:
+                        <h1>Login</h1>
+                        <section className='group'>
                             <input
                                 type='text'
+                                id='username'
+                                name='username'
+                                required
                                 onChange={this.handleChange}
                             />
-                        </label>
-                        <label htmlFor='password'>
-                            Password:
+                            <label htmlFor='username'>Username</label>
+                        </section>
+                        <section className='group'>
                             <input
-                                type='text'
+                                type='password'
+                                id='password'
+                                required
+                                password='password'
                                 onChange={this.handleChange}
                             />
-                        </label>
+                            <label htmlFor='password'>Password</label>
+                        </section>
                         <button
                             type='submit'
                         >
@@ -37,7 +44,7 @@ class Login extends Component {
                         </button>
                     </form>
                 </div>
-            </div>
+            </>
         );
     }
 };
