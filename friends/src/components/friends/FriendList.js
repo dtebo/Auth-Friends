@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+
+import * as MUI from '../../materialUI/index';
+
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
 
 import Friend from './Friend';
@@ -8,12 +11,27 @@ import './Friend.css';
 
 class FriendList extends Component {
     state = {
+        anchorEl: null,
         isLoading: true,
         friends: []
     };
 
     componentDidMount(){
         this.getFriends();
+    }
+
+    handleClick = e => {
+        this.setState({
+            ...this.state,
+            anchorEl: e.currentTarget
+        });
+    }
+
+    handleClose = e => {
+        this.setState({
+            ...this.state,
+            anchorEl: null
+        });
     }
 
     getFriends = () => {
@@ -31,6 +49,26 @@ class FriendList extends Component {
     render(){
         return(
             <>
+                <MUI.Button
+                    aria-control='account-menu'
+                    aria-haspopup='true'
+                    onClick={this.handleClick}
+                >
+                    Open Menu
+                </MUI.Button>
+                <MUI.Menu
+                    id='account-menu'
+                    anchorEl={this.state.anchorEl}
+                    keepMounted
+                    open={Boolean(this.state.anchorEl)}
+                    onClose={this.handleClose}
+                >
+                    <MUI.MenuItem
+                        onClick={this.handleClose}
+                    >
+                        Logout
+                    </MUI.MenuItem>
+                </MUI.Menu>
                 <h1>My Friends</h1>
                 {this.state.isLoading ? (
                     <h3>Loading...</h3>
@@ -41,7 +79,13 @@ class FriendList extends Component {
                                 return <Friend key={friend.id} friend={friend} />
                             })}
                         </div>
-                        <button><Link to='/friends/form'>Edit Friends</Link></button>
+                        <MUI.Button
+                            className='app-button'
+                            component={Link}
+                            to='/friends/form'
+                        >
+                            Edit Friends
+                        </MUI.Button>
                     </>
                 )}
             </>
