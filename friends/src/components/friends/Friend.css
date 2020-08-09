@@ -9,3 +9,7 @@
 .friend-card{
     width: 400px;
 }
+
+.title, .loading{
+    align-self: center;
+}

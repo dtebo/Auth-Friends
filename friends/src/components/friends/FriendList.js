@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import * as MUI from '../../materialUI/index';
 
@@ -21,7 +21,7 @@ class FriendList extends Component {
     }
 
     handleClick = e => {
-        this.setState({
+        this.setState({ 
             ...this.state,
             anchorEl: e.currentTarget
         });
@@ -32,9 +32,16 @@ class FriendList extends Component {
             ...this.state,
             anchorEl: null
         });
+
+        //Remove the authorization token
+        localStorage.removeItem('authToken');
+
+        //Return to the login page
+        this.props.history.push('/login');
     }
 
     getFriends = () => {
+        //Get our friends list
         axiosWithAuth()
             .get('/friends')
             .then(res => {
@@ -50,11 +57,13 @@ class FriendList extends Component {
         return(
             <>
                 <MUI.Button
-                    aria-control='account-menu'
+                    id='menu-button'
+                    aria-controls='account-menu'
                     aria-haspopup='true'
+                    size='large'
                     onClick={this.handleClick}
                 >
-                    Open Menu
+                    <MUI.Icon >menu</MUI.Icon>
                 </MUI.Button>
                 <MUI.Menu
                     id='account-menu'
@@ -69,9 +78,13 @@ class FriendList extends Component {
                         Logout
                     </MUI.MenuItem>
                 </MUI.Menu>
-                <h1>My Friends</h1>
+                <div className='title'>
+                    <h1>My Friends</h1>
+                </div>
                 {this.state.isLoading ? (
-                    <h3>Loading...</h3>
+                    <div className='loading'>
+                        <h3>Loading...</h3>
+                    </div>
                 ) : (
                     <>
                         <div className='friend-list'>
@@ -93,4 +106,4 @@ class FriendList extends Component {
     }
 };
 
-export default FriendList;
+export default withRouter(FriendList);

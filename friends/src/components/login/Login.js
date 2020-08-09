@@ -70,6 +70,7 @@ class Login extends Component {
                             <label htmlFor='password'>Password</label>
                         </section>
                         <button
+                            className='app-button'
                             type='submit'
                         >
                             Login

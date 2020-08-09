@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 
+import { withRouter } from 'react-router-dom';
+
+import { axiosWithAuth } from '../../utils/axiosWithAuth';
+
 class FriendForm extends Component{
     state = {
         isEditing: false,
         values: {
-            id: 0,
+            id: null,
             name: '',
-            age: 0,
+            age: null,
             email: ''
         },
         error: ''
@@ -14,24 +18,39 @@ class FriendForm extends Component{
 
     handleChange = e => {
         this.setState({
-            ...this.state.values,
-            [e.target.name]: e.target.value
+            values: {
+                ...this.state.values,
+                id: Date.now(),
+                [e.target.name]: e.target.name === 'age' ? parseInt(e.target.value) : e.target.value
+            }
         });
     }
 
     handleSubmit = e => {
         e.preventDefault();
+
+        axiosWithAuth()
+            .post('/friends', this.state.values)
+            .then(res => {
+                console.log(res.data);
+
+                this.props.history.push('/protected');
+            })
+            .catch(err => {
+                console.error('error: ', err.message);
+            });
     }
 
     render(){
         return(
-            <>
+            <div className='form-container'>
                 <form onSubmit={this.handleSubmit}>
                     <section className='group'>
                         <input
                             type='text'
                             id='name'
                             name='name'
+                            required
                             value={this.state.values.name}
                             onChange={this.handleChange}
                         />
@@ -42,30 +61,33 @@ class FriendForm extends Component{
                             type='text'
                             id='age'
                             name='age'
+                            required
                             value={this.state.values.age}
                             onChange={this.handleChange}
                         />
-                        <lable htmlFor='age'>Age</lable>
+                        <label htmlFor='age'>Age</label>
                     </section>
                     <section className='group'>
                         <input
                             type='text'
                             id='email'
                             name='email'
+                            required
                             value={this.state.values.email}
                             onChange={this.handleChange}
                         />
-                        <lable htmlFor='email'>Email</lable>
+                        <label htmlFor='email'>Email</label>
                     </section>
                     <button
+                        className='app-button'
                         type='submit'
                     >
                         {this.state.isEditing ? 'Update' : 'Add'}
                     </button>
                 </form>
-            </>
+            </div>
         )
     }
 }
 
-export default FriendForm
+export default withRouter(FriendForm)
