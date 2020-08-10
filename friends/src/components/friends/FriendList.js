@@ -63,7 +63,7 @@ class FriendList extends Component {
                     size='large'
                     onClick={this.handleClick}
                 >
-                    <MUI.Icon >menu</MUI.Icon>
+                    <MUI.Icon>menu</MUI.Icon>
                 </MUI.Button>
                 <MUI.Menu
                     id='account-menu'

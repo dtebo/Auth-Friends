@@ -51,8 +51,6 @@ class FriendForm extends Component{
     }
 
     handleChange = e => {
-        const { id } = this.props.match.params;
-
         this.setState({
             values: {
                 ...this.state.values,
