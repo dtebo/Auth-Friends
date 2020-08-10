@@ -10,11 +10,39 @@ class FriendForm extends Component{
         values: {
             id: null,
             name: '',
-            age: null,
+            age: 0,
             email: ''
         },
         error: ''
     };
+
+    componentDidMount(){
+        const { id } = this.props.match.params;
+        
+        if(id){
+            //We are attempting to edit, set the isEditing flag
+            this.setState({
+                ...this.state,
+                isEditing: true
+            });
+
+            axiosWithAuth()
+                .get(`/friends/${id}`)
+                .then(res => {
+                    console.log('from friend form: ', res.data);
+
+                    this.setState({
+                        ...this.state,
+                        values: {
+                            ...res.data
+                        }
+                    })
+                })
+                .catch(err => {
+                    console.error('error: ', err.message);
+                });
+        }
+    }
 
     handleChange = e => {
         this.setState({
@@ -29,16 +57,28 @@ class FriendForm extends Component{
     handleSubmit = e => {
         e.preventDefault();
 
-        axiosWithAuth()
-            .post('/friends', this.state.values)
-            .then(res => {
-                console.log(res.data);
+        if(this.state.isEditing){
+            axiosWithAuth()
+                .put(`/friends/${this.state.values.id}`, this.state.values)
+                .then(res => {
+                    console.log('from friend form handleSubmit: ', res.data);
+                })
+                .catch(err => {
+                    console.error('error: ', err.message);
+                });
+        }
+        else{
+            axiosWithAuth()
+                .post('/friends', this.state.values)
+                .then(res => {
+                    console.log(res.data);
 
-                this.props.history.push('/protected');
-            })
-            .catch(err => {
-                console.error('error: ', err.message);
-            });
+                    this.props.history.push('/protected');
+                })
+                .catch(err => {
+                    console.error('error: ', err.message);
+                });
+        }
     }
 
     render(){

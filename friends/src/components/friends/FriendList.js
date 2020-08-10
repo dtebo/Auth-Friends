@@ -97,7 +97,7 @@ class FriendList extends Component {
                             component={Link}
                             to='/friends/form'
                         >
-                            Edit Friends
+                            Add Friend
                         </MUI.Button>
                     </>
                 )}
