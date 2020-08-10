@@ -8,7 +8,6 @@ class FriendForm extends Component{
     state = {
         isEditing: false,
         values: {
-            id: null,
             name: '',
             age: 0,
             email: ''
@@ -42,13 +41,21 @@ class FriendForm extends Component{
                     console.error('error: ', err.message);
                 });
         }
+        else{
+            //If there's no id, we aren't editing any longer, so set the editing flag to false
+            this.setState({
+                ...this.state,
+                isEditing: false
+            });
+        }
     }
 
     handleChange = e => {
+        const { id } = this.props.match.params;
+
         this.setState({
             values: {
                 ...this.state.values,
-                id: Date.now(),
                 [e.target.name]: e.target.name === 'age' ? parseInt(e.target.value) : e.target.value
             }
         });
@@ -62,6 +69,8 @@ class FriendForm extends Component{
                 .put(`/friends/${this.state.values.id}`, this.state.values)
                 .then(res => {
                     console.log('from friend form handleSubmit: ', res.data);
+
+                    this.props.history.push('/protected');
                 })
                 .catch(err => {
                     console.error('error: ', err.message);
