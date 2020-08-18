@@ -1,0 +1,14 @@
+.form-container form{
+    position: relative;
+}
+
+.form-container form:before{
+    content: ' ';
+    background: url('../../assets/raintexture.png') no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: .7;
+}
