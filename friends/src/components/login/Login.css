@@ -1,5 +1,7 @@
 .form-container form{
     position: relative;
+    background:  rgba(255, 255, 255, 0.5);
+    color: rgb(255, 255, 255);
 }
 
 .form-container form:before{
@@ -10,5 +12,13 @@
     left: 0;
     height: 100%;
     width: 100%;
-    opacity: .7;
+    opacity: .5;
+}
+
+.form-container form input{
+    background: transparent;
+}
+
+.form-container form .app-button{
+    z-index: 2;
 }
