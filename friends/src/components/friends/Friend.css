@@ -1,0 +1,15 @@
+.friend-list{
+    margin: 0 auto;
+    width: 650px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.friend-card{
+    width: 400px;
+}
+
+.title, .loading{
+    align-self: center;
+}
